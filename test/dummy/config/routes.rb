@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount Tally::Engine => "/tally"
+  mount RollupEngine::Engine => "/rollup_engine"
 end

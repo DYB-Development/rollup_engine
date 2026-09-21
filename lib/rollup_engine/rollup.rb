@@ -1,7 +1,7 @@
-module Tally
+module RollupEngine
   module Rollup
     def self.compute(facts, measure:, grain:, time:, by: [])
-      definition = Tally.measure(measure)
+      definition = RollupEngine.measure(measure)
 
       case definition.aggregation
       when :count then count(facts, grain: grain, time: time, by: by)

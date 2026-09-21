@@ -1,10 +1,10 @@
-require "tally/version"
-require "tally/engine"
-require "tally/measure"
-require "tally/rollup"
-require "tally/recompute"
+require "rollup_engine/version"
+require "rollup_engine/engine"
+require "rollup_engine/measure"
+require "rollup_engine/rollup"
+require "rollup_engine/recompute"
 
-module Tally
+module RollupEngine
   class << self
     def measures
       @measures ||= {}

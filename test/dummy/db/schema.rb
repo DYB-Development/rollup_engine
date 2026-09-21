@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_05_160001) do
-  create_table "tally_datapoints", force: :cascade do |t|
+ActiveRecord::Schema[8.1].define(version: 2026_09_21_120000) do
+  create_table "rollup_engine_datapoints", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.json "dimensions", default: {}, null: false
     t.string "dimensions_key", default: "", null: false
@@ -21,6 +21,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_05_160001) do
     t.datetime "recomputed_at"
     t.datetime "updated_at", null: false
     t.decimal "value", null: false
-    t.index ["measure", "grain", "period_start", "dimensions_key"], name: "index_tally_datapoints_unique", unique: true
+    t.index ["measure", "grain", "period_start", "dimensions_key"], name: "index_rollup_engine_datapoints_unique", unique: true
   end
 end

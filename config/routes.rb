@@ -1,2 +1,2 @@
-Tally::Engine.routes.draw do
+RollupEngine::Engine.routes.draw do
 end

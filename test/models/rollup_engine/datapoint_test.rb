@@ -1,6 +1,6 @@
 require "test_helper"
 
-module Tally
+module RollupEngine
   class DatapointTest < ActiveSupport::TestCase
     test "in_period returns only datapoints whose period_start falls in the range" do
       inside = Datapoint.create!(measure: "leads", grain: "day", period_start: Time.utc(2026, 6, 10), value: 5, dimensions: {})
