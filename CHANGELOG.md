@@ -7,5 +7,5 @@ All notable changes to this project are documented here, following
 ## [Unreleased]
 
 ### Added
-- Initial gem scaffold: mountable `Tally` Rails engine (source-agnostic; no event
+- Initial gem scaffold: mountable `RollupEngine` Rails engine (source-agnostic; no event
   source dependency).

@@ -1,4 +1,4 @@
-module Tally
+module RollupEngine
   module Recompute
     def self.call(measure_name, facts, grain:, time:, by: [])
       result = Rollup.compute(facts, measure: measure_name, grain: grain, time: time, by: by)

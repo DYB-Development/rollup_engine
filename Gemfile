@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in tally.gemspec.
+# Specify your gem's dependencies in rollup_engine.gemspec.
 gemspec
 
 # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]

@@ -1,8 +1,8 @@
 require "json"
 
-module Tally
+module RollupEngine
   class Datapoint < ApplicationRecord
-    self.table_name = "tally_datapoints"
+    self.table_name = "rollup_engine_datapoints"
 
     scope :in_period, ->(range) { where(period_start: range) }
 

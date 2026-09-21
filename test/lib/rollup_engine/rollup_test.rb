@@ -1,6 +1,6 @@
 require "test_helper"
 
-module Tally
+module RollupEngine
   class RollupTest < ActiveSupport::TestCase
     Fact = Struct.new(:occurred_at, :amount, :channel, keyword_init: true)
 
