@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   # json 3 dropped the second argument ActiveSupport::JSON.decode passes it, so
   # every read of a json column raises until Rails ships a release that calls
   # the new interface.
-  spec.add_dependency "json", "< 3"
+  spec.add_dependency "json", "< 4"
 
   spec.add_dependency "rails", ">= 8.1", "< 9"
 end
