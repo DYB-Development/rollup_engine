@@ -48,10 +48,11 @@ RollupEngine.recompute(:revenue, facts, grain: :day, time: :occurred_at, by: [:c
 with nested data roll up without a wrapper — e.g. an event's JSON `payload`:
 
 ```ruby
+RollupEngine.register_measure(:revenue, aggregation: :sum, field: ->(e) { e.payload["amount"] })
+
 RollupEngine.recompute(:revenue, stored_events,
   grain: :day,
-  time:  :occurred_at,
-  field: ->(e) { e.payload["amount"] },
+  time:  ->(e) { e.occurred_at },
   by:    [ ->(e) { e.payload["channel"] } ])
 ```
 
