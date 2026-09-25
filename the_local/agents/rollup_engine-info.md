@@ -31,6 +31,7 @@ rollup_engine declares no commands for this local. Its surface belongs to the ot
 - **Measure** — a named number defined once by name, such as `:revenue` or `:signups`. Its aggregation is either `count`, which counts facts, or `sum`, which adds up one field of each fact. Measures are registered in memory for the running process, not stored in the database.
 - **Grain** — the size of the time period facts are grouped into, such as `day`, `week`, `month` or `year`. Each fact falls into the period that starts at the beginning of its grain.
 - **Dimension** — an attribute facts are split by, such as a channel. With no dimensions, there is one number per period.
+- **Named dimension** — a dimension given as a name paired with an accessor rather than as a method name alone. The name is what the dimension is saved under, so a dimension read with a lambda needs one.
 - **Accessor** — how a time, field or dimension is read from a fact: either the name of a method on the fact, or a lambda that takes the fact and returns the value. A lambda is how values nested in a JSON payload are reached.
 - **Rollup** — the computed result: one value per period, or per period and dimension combination. Computing a rollup saves nothing.
 - **Datapoint** — one saved rollup value, identified by its measure, grain, period start and dimension values. Dimension names are stored as strings, and the order dimensions were given in does not change which row matches.

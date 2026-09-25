@@ -29,7 +29,7 @@ A Rails engine that turns a collection of records ("facts") into one number per 
    - Which records are the facts, and which time attribute places each one in a bucket (for example `created_at` or `paid_at`).
    - Whether each measure counts facts or sums a numeric field, and which field.
    - The grain: `:day`, `:week`, `:month`, `:quarter` or `:year` (also `:hour` or `:minute`). Any name works for which the time value answers `beginning_of_<grain>`. `:week` starts on the app's configured `beginning_of_week`, Monday by default.
-   - Which dimensions, if any, to split each bucket by (for example `:region` or `:plan`).
+   - Which dimensions, if any, to split each bucket by (for example `:region` or `:plan`), what name each is saved under, and how its value is read from a fact.
    - When recomputing runs: after each write, in a scheduled job, or on demand.
 
 2. Register each measure once at boot, in an initializer such as `config/initializers/rollup_engine.rb`:
@@ -53,7 +53,14 @@ A Rails engine that turns a collection of records ("facts") into one number per 
 
    - `facts` is any enumerable of objects. An ActiveRecord relation is loaded into memory in full, so scope it to the periods being recomputed.
    - `time:` is a method name or a lambda taking the fact and returning a `Time`, `DateTime` or `Date`. Buckets start at the beginning of the grain in that value's own time zone.
-   - `by:` is an array of method names. Use symbols or strings here, not lambdas, because each name becomes a key in the saved `dimensions` hash.
+   - `by:` is an array of method names, or a hash of dimension name to accessor. In an array each method name becomes a key in the saved `dimensions` hash, so an array holds names only, never lambdas.
+   - When a dimension's value is not a method on the fact, or should be saved under a different name, pass a hash. Each key is the name saved in `dimensions` and each value is a method name or a lambda taking the fact:
+
+     ```ruby
+     RollupEngine.recompute(:revenue, orders, grain: :month, time: :paid_at, by: { region: ->(order) { order.address.region } })
+     ```
+
+     This saves `dimensions` as `{ "region" => "EU" }`.
    - Each bucket is matched on measure, grain, period start and dimension values. A matching row is updated with the new value and `recomputed_at`; otherwise a row is created. Running it twice on the same facts gives the same rows.
    - It only writes buckets that contain at least one fact. A bucket whose facts were all deleted keeps its old value. When facts can be removed, pass every fact in the affected periods, and delete stale rows for those periods before recomputing if the developer wants them gone.
    - Call it from wherever step 1 decided: a model callback, a job (for example `app/jobs/recompute_signups_job.rb`) or a rake task.
@@ -61,7 +68,7 @@ A Rails engine that turns a collection of records ("facts") into one number per 
 4. To get totals without saving, call `RollupEngine::Rollup.compute(facts, measure:, grain:, time:, by: [])` for a registered measure, or `RollupEngine::Rollup.count(facts, grain:, time:, by: [])` and `RollupEngine::Rollup.sum(facts, field, grain:, time:, by: [])` for a one-off. All three return a hash:
    - With `by: []`, each key is the bucket start time: `{ 2026-09-01 00:00 => 42 }`.
    - With dimensions, each key is an array of the bucket start followed by one value per dimension, in `by:` order: `{ [2026-09-01 00:00, "EU"] => 12 }`.
-   - `by:` entries here may be method names or lambdas taking the fact.
+   - `by:` here may be an array of method names or lambdas taking the fact, or a hash of dimension name to accessor. The names in a hash do not appear in the result, only the values in the hash's order.
    - `count` values are integers. `sum` values are whatever adding the field values produces.
 
 5. Read saved datapoints back.
