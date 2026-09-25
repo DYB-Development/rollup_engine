@@ -48,5 +48,14 @@ module RollupEngine
 
       assert_equal 2, Datapoint.count
     end
+
+    test "stores a callable dimension under the name it is given" do
+      RollupEngine.register_measure(:orders, aggregation: :count)
+      facts = [ Fact.new(occurred_at: Time.utc(2026, 6, 1, 10), channel: "web") ]
+
+      RollupEngine.recompute(:orders, facts, grain: :day, time: :occurred_at, by: { channel: ->(fact) { fact.channel } })
+
+      assert_equal({ "channel" => "web" }, Datapoint.sole.dimensions)
+    end
   end
 end

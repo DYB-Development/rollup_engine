@@ -19,7 +19,8 @@ module RollupEngine
       return [ key, {} ] if by.empty?
 
       period_start, *dimension_values = key
-      [ period_start, by.map(&:to_s).zip(dimension_values).to_h ]
+      names = by.is_a?(Hash) ? by.keys : by
+      [ period_start, names.map(&:to_s).zip(dimension_values).to_h ]
     end
   end
 end
