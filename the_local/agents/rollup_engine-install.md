@@ -19,8 +19,8 @@ A Rails engine that aggregates facts into per-period numbers and saves them as d
 
 ## How to use it
 
-1. Check the app's Rails version in `Gemfile.lock`. The engine's migrations are written as `ActiveRecord::Migration[8.1]`, so `db:migrate` fails with "Unknown migration version" on anything older than Rails 8.1. If the app is older, stop and tell the developer.
-2. Add `gem "rollup_engine"` to the app's `Gemfile` and run `bundle install`. The gem requires the `json` gem below version 3, so if bundling fails on `json`, report the conflict to the developer and do not change the constraint.
+1. Check the app's Rails and Ruby versions in `Gemfile.lock` and `.ruby-version`. The gem requires Rails 8.1 or later below 9, and Ruby 3.2 or later. If the app is outside those ranges, stop and tell the developer. Upgrading Rails is their decision, not a step of this install.
+2. Add `gem "rollup_engine"` to the app's `Gemfile` and run `bundle install`. The gem requires the `json` gem below version 3, so if bundling fails on `json` or `rails`, report the conflict to the developer and do not change either constraint.
 3. Run `bin/rails rollup_engine:install:migrations`. It copies three migrations into `db/migrate/`, each with the `.rollup_engine.rb` suffix: create the datapoints table, add its dimensions key and unique index, and rename the table to `rollup_engine_datapoints`.
 4. If the app previously used the gem under its old name, `tally`, and already ran its migrations, the first two are skipped as already present and only the rename migration is copied. Confirm with the developer that `tally_datapoints` holds the data they expect to keep before migrating.
 5. Run `bin/rails db:migrate`. It creates `rollup_engine_datapoints` and updates `db/schema.rb` (or `db/structure.sql`).

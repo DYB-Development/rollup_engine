@@ -29,5 +29,5 @@ Gem::Specification.new do |spec|
   # the new interface.
   spec.add_dependency "json", "< 3"
 
-  spec.add_dependency "rails", ">= 7.1.6", "< 9"
+  spec.add_dependency "rails", ">= 8.1", "< 9"
 end

@@ -9,7 +9,7 @@ This local explains rollup_engine and the words it uses. It makes no changes and
 
 ## What rollup_engine is
 
-rollup_engine is a Rails engine that turns a collection of records into numbers per time period. You give it facts, name a measure, pick a time grain and optionally some dimensions, and it returns one number per period and dimension combination. It can also save those numbers to its own table, and running the same computation again updates the saved rows rather than adding new ones.
+rollup_engine is a Rails engine, for apps on Rails 8.1 or later within 8.x, that turns a collection of records into numbers per time period. You give it facts, name a measure, pick a time grain and optionally some dimensions, and it returns one number per period and dimension combination. It can also save those numbers to its own table, and running the same computation again updates the saved rows rather than adding new ones.
 
 It does not care where the facts come from. Anything that can be enumerated and read from works: ActiveRecord rows, plain Ruby objects, or stored events whose values sit inside a JSON payload. Reach for it when an app needs daily, weekly or monthly totals or counts, split by attributes such as channel or plan, and wants those totals stored for charts and reports instead of computed on every request.
 
@@ -35,4 +35,4 @@ rollup_engine declares no commands for this local. Its surface belongs to the ot
 - **Rollup** — the computed result: one value per period, or per period and dimension combination. Computing a rollup saves nothing.
 - **Datapoint** — one saved rollup value, identified by its measure, grain, period start and dimension values. Dimension names are stored as strings, and the order dimensions were given in does not change which row matches.
 - **Recompute** — computing a rollup and saving it as datapoints. Running it again over the same facts updates the existing datapoints in place and records when they were last recomputed.
-- **Series** — the saved values for one measure over a date range, as one total per period start, summed across all dimension combinations.
+- **Series** — the saved values for one measure over a date range, as one total per period start, summed across all dimension combinations. A series does not filter by grain, so a measure saved at more than one grain has those values added together wherever their period starts coincide.
