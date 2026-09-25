@@ -6,6 +6,9 @@ All notable changes to this project are documented here, following
 
 ## [Unreleased]
 
+### Changed
+- Requires Rails 8.1 or newer, the version its migrations are written for.
+
 ## [0.2.0] - 2026-09-25
 
 ### Added
