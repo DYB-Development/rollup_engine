@@ -1,0 +1,28 @@
+scope: rollups — declaring measures, aggregating facts by time grain and dimension, and persisting the results as datapoints
+
+install:
+  - gem "rollup_engine"
+  - bin/rails rollup_engine:install:migrations
+  - bin/rails db:migrate
+
+develop:
+  - RollupEngine.register_measure
+  - RollupEngine.recompute
+  - RollupEngine.reset_measures!
+  - RollupEngine::Rollup.compute
+  - RollupEngine::Rollup.count
+  - RollupEngine::Rollup.sum
+  - RollupEngine::Datapoint
+  - RollupEngine::Datapoint.series
+  - RollupEngine::Datapoint.in_period
+
+sources:
+  - lib/rollup_engine.rb
+  - lib/rollup_engine/engine.rb
+  - lib/rollup_engine/measure.rb
+  - lib/rollup_engine/rollup.rb
+  - lib/rollup_engine/recompute.rb
+  - app/models/rollup_engine/datapoint.rb
+  - db/migrate/20260605000001_create_tally_datapoints.rb
+  - db/migrate/20260605160001_add_dimensions_key_to_tally_datapoints.rb
+  - db/migrate/20260921120000_rename_tally_tables_to_rollup_engine.rb
