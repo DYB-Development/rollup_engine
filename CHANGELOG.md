@@ -6,6 +6,14 @@ All notable changes to this project are documented here, following
 
 ## [Unreleased]
 
+### Added
+- Dimensions can be passed as a hash of name to accessor, so `recompute` saves a
+  dimension read with a callable under that name.
+
+### Fixed
+- The README's payload example registers the summed field on the measure instead
+  of passing it to `recompute`, which does not accept it.
+
 ### Changed
 - Requires Rails 8.1 or newer, the version its migrations are written for.
 
