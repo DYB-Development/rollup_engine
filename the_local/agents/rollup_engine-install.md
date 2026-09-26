@@ -31,7 +31,7 @@ There is no initializer to generate, no configuration to set and no route to mou
 ## Conventions
 
 - After migrating, `bin/rails runner 'p ActiveRecord::Base.connection.table_exists?(:rollup_engine_datapoints)'` prints `true`. Anything else means the migrations did not run.
-- `db/schema.rb` shows `rollup_engine_datapoints` with columns `measure`, `grain`, `period_start`, `dimensions`, `dimensions_key`, `value` and `recomputed_at`, and a unique index `index_rollup_engine_datapoints_unique`.
+- `db/schema.rb` shows `rollup_engine_datapoints` with columns `measure`, `grain`, `period_start`, `dimensions`, `dimensions_key`, `value`, `recomputed_at`, `created_at` and `updated_at`, and a unique index `index_rollup_engine_datapoints_unique`.
 - After upgrading the gem, run `bin/rails rollup_engine:install:migrations` again, then `bin/rails db:migrate`. Migrations already copied are skipped.
 - Never edit the copied migrations. Changes to the table come from a new gem release.
 - Registering measures, computing rollups and reading datapoints are out of scope here. Use rollup_engine-develop for those.

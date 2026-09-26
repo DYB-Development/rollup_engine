@@ -83,5 +83,24 @@ module RollupEngine
 
       assert_equal({ Time.utc(2026, 6, 1) => 150 }, result)
     end
+
+    test "extracts a named dimension via a callable" do
+      facts = [
+        { at: Time.utc(2026, 6, 1, 10), data: { "ch" => "web" } },
+        { at: Time.utc(2026, 6, 1, 11), data: { "ch" => "app" } }
+      ]
+
+      result = Rollup.count(
+        facts,
+        grain: :day,
+        time: ->(fact) { fact[:at] },
+        by: { channel: ->(fact) { fact[:data]["ch"] } }
+      )
+
+      assert_equal(
+        { [ Time.utc(2026, 6, 1), "web" ] => 1, [ Time.utc(2026, 6, 1), "app" ] => 1 },
+        result
+      )
+    end
   end
 end

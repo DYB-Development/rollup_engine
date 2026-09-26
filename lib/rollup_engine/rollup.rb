@@ -28,7 +28,8 @@ module RollupEngine
       bucket = bucket(extract(fact, time), grain)
       return bucket if by.empty?
 
-      [ bucket, *by.map { |dimension| extract(fact, dimension) } ]
+      accessors = by.is_a?(Hash) ? by.values : by
+      [ bucket, *accessors.map { |accessor| extract(fact, accessor) } ]
     end
 
     def self.extract(fact, accessor)

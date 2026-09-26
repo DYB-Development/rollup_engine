@@ -45,14 +45,16 @@ RollupEngine.recompute(:revenue, facts, grain: :day, time: :occurred_at, by: [:c
 ```
 
 `time`, `field`, and dimensions accept a **method symbol or a callable**, so facts
-with nested data roll up without a wrapper — e.g. an event's JSON `payload`:
+with nested data roll up without a wrapper — e.g. an event's JSON `payload`. A
+dimension read with a callable is passed in a hash under the name it is saved as:
 
 ```ruby
+RollupEngine.register_measure(:revenue, aggregation: :sum, field: ->(e) { e.payload["amount"] })
+
 RollupEngine.recompute(:revenue, stored_events,
   grain: :day,
-  time:  :occurred_at,
-  field: ->(e) { e.payload["amount"] },
-  by:    [ ->(e) { e.payload["channel"] } ])
+  time:  ->(e) { e.occurred_at },
+  by:    { channel: ->(e) { e.payload["channel"] } })
 ```
 
 This is what lets `event_engine-store` events feed `rollup_engine` without coupling the two.
